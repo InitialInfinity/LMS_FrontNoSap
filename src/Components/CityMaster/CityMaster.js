@@ -14,6 +14,7 @@ import UserId from "../UserId";
 import ErrorHandler from "../ErrorHandler";
 
 const CityMaster = () => {
+  console.log("abc");
   const navigate = useNavigate();
   // const {id, stateName, coId, coName} = useParams();
   const [searchData, setSearchData] = useState("");
