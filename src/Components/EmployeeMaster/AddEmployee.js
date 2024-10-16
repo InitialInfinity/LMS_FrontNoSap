@@ -18,15 +18,10 @@ const AddEmployee = () => {
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
-
-  const [designation, setDesignation] = useState({
-    emp_des_id: '',
-    emp_des: ''
-  });
-  const [departments, setDepartments] = useState({
-    emp_dep_id: '',
-    emp_dep: ''
-  });
+  const [designation, setDesignation] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [emp_dep, setEmpDep] = useState('');
+  const [emp_des, setEmpDes] = useState('');
   const [hod, setHod] = useState("");
   const [hodToEmployee, setHodToEmployee] = useState("");
   const [address1, setAddress1] = useState("");
@@ -45,6 +40,8 @@ const AddEmployee = () => {
   const [selectedDesignation, setSelectedDesignation] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState([]);
   const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(10);
+  const [designations, setDesignations] = useState([]);
+  const [department, setDepartment] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -79,16 +76,16 @@ const AddEmployee = () => {
           // setMiddleName(response.data.data.emp_mname);
           // setLastName(response.data.data.emp_lname);
           setJobTitle(response.data.data.emp_job_title);
-          //setDesignation(response.data.data.emp_des);
-          //setDepartments(response.data.data.emp_dep);
-          setDepartments({
-            emp_dep_id: response.data.data.emp_dep_id,  // Assuming the ID field is emp_des_id
-            emp_dep: response.data.data.emp_dep        // Assuming the name field is emp_des
-          });
-          setDesignation({
-            emp_des_id: response.data.data.emp_des_id,  // Assuming the ID field is emp_des_id
-            emp_des: response.data.data.emp_des         // Assuming the name field is emp_des
-          });
+          setDesignation(response.data.data.emp_des);
+          setDepartments(response.data.data.emp_dep);
+          //setDepartments({
+           // emp_dep_id: response.data.data.emp_dep_id,  // Assuming the ID field is emp_des_id
+           // emp_dep: response.data.data.emp_dep        // Assuming the name field is emp_des
+          //});
+          //setDesignation({
+           // emp_des_id: response.data.data.emp_des_id,  // Assuming the ID field is emp_des_id
+           // emp_des: response.data.data.emp_des         // Assuming the name field is emp_des
+          //});
           setHod(response.data.data.emp_hod);
           setHodToEmployee(response.data.data.emp_hodToEmp);
           setAddress1(response.data.data.emp_add1);
@@ -165,11 +162,11 @@ const AddEmployee = () => {
         userId: UserId,
         emp_code: empCode,
         emp_city: city,
-        emp_des: designation.emp_des,
+        emp_des:designation ,
         emp_fname: firstName,
-        emp_dep: departments.emp_dep,
-        emp_dep_id: departments.emp_dep_id,
-        emp_des_id: designation.emp_des_id,
+        emp_dep: departments,
+        emp_dep_id:emp_dep ,
+        emp_des_id: emp_des,
         emp_joiningDate: joiningDate,
         emp_email: emailId,
         emp_mname: middleName,
@@ -319,16 +316,16 @@ const AddEmployee = () => {
         setMiddleName(response.data.data.emp_mname);
         setLastName(response.data.data.emp_lname);
         // Set other data
-        //setDepartments(response.data.data.emp_dep);
-       // setDesignation(response.data.data.emp_des);
-       setDepartments({
-        emp_dep_id: response.data.data.emp_dep_id,  // Assuming the ID field is emp_des_id
-        emp_dep: response.data.data.emp_dep        // Assuming the name field is emp_des
-      });
-      setDesignation({
-        emp_des_id: response.data.data.emp_des_id,  // Assuming the ID field is emp_des_id
-        emp_des: response.data.data.emp_des         // Assuming the name field is emp_des
-      });
+        setDepartments(response.data.data.emp_dep);
+       setDesignation(response.data.data.emp_des);
+       //setDepartments({
+        //emp_dep_id: response.data.data.emp_dep_id,  // Assuming the ID field is emp_des_id
+        //emp_dep: response.data.data.emp_dep        // Assuming the name field is emp_des
+      //});
+      //setDesignation({
+       // emp_des_id: response.data.data.emp_des_id,  // Assuming the ID field is emp_des_id
+       // emp_des: response.data.data.emp_des         // Assuming the name field is emp_des
+      //});
         const joiningDate = response.data.data.emp_joiningDate ? response.data.data.emp_joiningDate.split("T")[0] : "";
         setJoiningDate(joiningDate);
         // setJoiningDate(response.data.data.emp_joiningDate.split("T")[0]);
@@ -367,6 +364,27 @@ const AddEmployee = () => {
         setEmailId("");
       });
   };
+  useEffect(() => {
+    // Simulate fetching data from an API
+    const fetchDesignations = async () => {
+      const response = await GetAllDesignation();// Replace with your actual API endpoint
+     
+      setDesignations(response); // Set the fetched data to state
+    };
+
+    fetchDesignations();
+  }, []);
+
+  useEffect(() => {
+    // Simulate fetching data from an API
+    const fetchDepartments = async () => {
+      const response = await getAllDepartment();// Replace with your actual API endpoint
+     
+      setDepartment(response); // Set the fetched data to state
+    };
+
+    fetchDepartments();
+  }, []);
 
   const getAllData = async () => {
     const designationData = await GetAllDesignation();
@@ -379,18 +397,31 @@ const AddEmployee = () => {
 
   const handleDesignation = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
-    setDesignation({
-      emp_des_id: selectedOption.value,  // Department ID
-      emp_des: selectedOption.text,      // Department name
+    //setDesignation({
+     // emp_des_id: selectedOption.value,  // Department ID
+     // emp_des: selectedOption.text,      // Department name
+    //});
+    setDesignation(e.target.value);
+    const selectedDesignation = designations.find(designation => {
+      console.log("Checking designation:", designation); // Log each designation
+      return designation.de_id === parseInt(e.target.value, 10); // Compare with parsed ID
     });
+
+    console.log("Selected Designation:", selectedDesignation); // Log the found designation
+    setEmpDes(selectedDesignation ? selectedDesignation.de_designation_name : '');
   };
+
   const handleDepartment = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex]; // Get the selected option element
-    setDepartments({
-      emp_dep_id: selectedOption.value,  // Department ID
-      emp_dep: selectedOption.text,      // Department name
+   
+    setDepartments(e.target.value);
+    const selectedDepartment = department.find(departments => {
+      console.log("Checking designation:", departments); // Log each designation
+      return departments.d_id === parseInt(e.target.value, 10); // Compare with parsed ID
     });
-    
+
+    console.log("Selected Designation:", selectedDepartment); // Log the found designation
+    setEmpDep(selectedDepartment ? selectedDepartment.d_department_name : '');
   };
   return (
     <>

@@ -235,8 +235,8 @@ const EmployeeMaster = () => {
   {`${data.emp_fname} ${data.emp_mname ? data.emp_mname + ' ' : ''}${data.emp_lname}`}
 </td>
                           {/* <td>{data.emp_job_title}</td> */}
-                          <td>{data.emp_des}</td>
-                          <td>{data.emp_dep}</td>
+                          <td>{data.emp_des_id}</td>
+                          <td>{data.emp_dep_id}</td>
                           <td>{data.emp_city}</td>
                           <td>{data.emp_mob_no}</td>
                           <td>{data.emp_off_no}</td>
