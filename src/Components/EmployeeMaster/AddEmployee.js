@@ -94,6 +94,8 @@ const AddEmployee = () => {
           //   value: response.data.data.emp_city,
           //   label: response.data.data.emp_city_name,
           // });
+          setEmpDep(response.data.data.emp_dep_id)
+          setEmpDes(response.data.data.emp_des_id)
           setCity(response.data.data.emp_city);
           setState(response.data.data.emp_state);
           setCountry(response.data.data.emp_country);
@@ -336,6 +338,8 @@ const AddEmployee = () => {
         //   value: response.data.data.emp_city,
         //   label: response.data.data.emp_city_name,
         // });
+        setEmpDep(response.data.data.emp_dep_id)
+          setEmpDes(response.data.data.emp_des_id)
         setCity(response.data.data.emp_city);
         setState(response.data.data.emp_state);
         setCountry(response.data.data.emp_country);
